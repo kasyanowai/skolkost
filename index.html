@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Стоимость квартиры в Москве — СколькоСтоит.ру</title>
+<title>🏠 Стоимость квартиры в Москве — СколькоСтоит.ру</title>
 <meta name="description" content="Актуальная медианная стоимость квартир в Москве, Санкт-Петербурге и других городах России. Ипотечный калькулятор, динамика цен, индекс доступности.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/dm-mono@5.0.0/300.css">
 <!-- Яндекс.Метрика — вставь свой номер счётчика -->
@@ -111,14 +111,14 @@ canvas#priceChart{display:block;width:100%;}
 .success-msg{display:none;text-align:center;padding:1rem 0;}
 .success-icon{font-size:32px;margin-bottom:10px;}
 .success-text{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.5;}
-@media(max-width:480px){.email-row{flex-direction:column;}.email-btn{width:100%;}} @media(min-width:600px){.page-title{font-size:20px;} .meta{font-size:16px;letter-spacing:.4px;} .lbl{font-size:15px;} .sec-title{font-size:13px;} .data-date{font-size:14px;} .range-label{font-size:14px;} .range-val{font-size:15px;} .chart-label{font-size:13px;} .bar-name,.bar-val{font-size:14px;} .acc-name{font-size:14px;} .cta-btn{font-size:16px;padding:14px 32px;} .city-opt{font-size:16px;padding:11px 20px;} .email-title{font-size:20px;} .email-sub{font-size:15px;} .email-inp,.email-btn{font-size:15px;padding:12px 16px;} .pill{font-size:15px;padding:8px 20px;} .big-num{font-size:52px;} .big-unit{font-size:26px;} .mort-label{font-size:13px;} .sec-val{font-size:15px;} .section-card{padding:1.75rem;} .sec-inp{font-size:14px;} .unit{font-size:14px;} .modal-title{font-size:20px;} .modal-sub{font-size:15px;} .field-input{font-size:16px;} .submit-btn{font-size:15px;} .mort-cta{font-size:14px;} .hdivider{height:14px;} .email-block{padding:2rem 1.5rem;} .wordmark{font-size:12px;}}
+details summary::-webkit-details-marker{display:none;} details[open] summary span{transform:rotate(45deg);display:inline-block;} @media(max-width:480px){.email-row{flex-direction:column;}.email-btn{width:100%;}} @media(min-width:600px){.page-title{font-size:20px;} .meta{font-size:16px;letter-spacing:.4px;} .lbl{font-size:15px;} .sec-title{font-size:13px;} .data-date{font-size:14px;} .range-label{font-size:14px;} .range-val{font-size:15px;} .chart-label{font-size:13px;} .bar-name,.bar-val{font-size:14px;} .acc-name{font-size:14px;} .cta-btn{font-size:16px;padding:14px 32px;} .city-opt{font-size:16px;padding:11px 20px;} .email-title{font-size:20px;} .email-sub{font-size:15px;} .email-inp,.email-btn{font-size:15px;padding:12px 16px;} .pill{font-size:15px;padding:8px 20px;} .big-num{font-size:52px;} .big-unit{font-size:26px;} .mort-label{font-size:13px;} .sec-val{font-size:15px;} .section-card{padding:1.75rem;} .sec-inp{font-size:14px;} .unit{font-size:14px;} .modal-title{font-size:20px;} .modal-sub{font-size:15px;} .field-input{font-size:16px;} .submit-btn{font-size:15px;} .mort-cta{font-size:14px;} .hdivider{height:14px;} .email-block{padding:2rem 1.5rem;} .wordmark{font-size:12px;}}
 </style>
 </head>
 <body>
 <div class="page">
   <div class="fold1">
     <div class="page-title">
-      Стоимость квартиры в&nbsp;<span class="city-trigger" id="cityTrigger">Москве</span>
+      🏠 Стоимость квартиры в&nbsp;<span class="city-trigger" id="cityTrigger">Москве</span>
       <div class="city-dropdown" id="cityDropdown">
         <div class="city-opt selected" data-key="moscow" data-gen="Москве" data-aparts="1">Москва</div>
         <div class="city-opt" data-key="mo" data-gen="Московской области" data-aparts="0">Московская область</div>
@@ -157,15 +157,16 @@ canvas#priceChart{display:block;width:100%;}
         <span>медиана</span><span class="mdot"></span>
         <span id="metaProptype">квартира</span><span class="mdot"></span>
         <span id="metaRooms">1-комн.</span><span class="mdot"></span>
-        <span id="metaMarket">вторичка</span><span class="mdot"></span>
+        <span id="metaMarket">новостройка</span><span class="mdot"></span>
         <span class="trend" id="metaTrend">↑ 3.2% за месяц</span>
       </div>
+      <div style="margin-top:8px;font-size:13px;color:rgba(255,255,255,0.38);letter-spacing:0.3px;">≈ <span id="sqmPrice" style="color:rgba(255,255,255,0.6);font-family:'DM Mono',monospace;font-weight:300;">285 000</span> ₽ за м²</div>
       <div class="range-row">
         <span class="range-label">от</span><span class="range-val" id="rangeMin">5 800 000 ₽</span>
         <span class="hdivider"></span>
         <span class="range-label">до</span><span class="range-val" id="rangeMax">14 200 000 ₽</span>
       </div>
-      <div class="data-date">данные актуальны на 1 апреля 2026</div>
+      <div class="data-date">обновлено <b style="color:rgba(255,255,255,0.6);">1 апреля 2026</b></div>
     </div>
     <div class="chart-wrap">
       <div class="chart-label">динамика медианы за 12 месяцев</div>
@@ -179,7 +180,8 @@ canvas#priceChart{display:block;width:100%;}
   </div>
 
   <div class="sections">
-    <!-- Калькулятор накоплений -->
+
+    <!-- 1. Сколько копить -->
     <div class="section-card">
       <div style="margin-bottom:0.75rem;">
         <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Сколько копить на квартиру?</div>
@@ -196,7 +198,7 @@ canvas#priceChart{display:block;width:100%;}
       </div>
     </div>
 
-    <!-- Ипотечный калькулятор -->
+    <!-- 2. Ипотека -->
     <div class="section-card">
       <div style="margin-bottom:0.75rem;">
         <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Ипотечный калькулятор</div>
@@ -219,24 +221,83 @@ canvas#priceChart{display:block;width:100%;}
       <button class="mort-cta" id="mortCtaBtn">Подобрать ипотеку бесплатно →</button>
     </div>
 
-    <!-- Районы -->
-    <div class="section-card" id="distCard">
+    <!-- 3. М² -->
+    <div class="section-card">
       <div style="margin-bottom:0.75rem;">
-        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Сравнение по районам</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Медианная цена масштабируется под выбранный тип и количество комнат. Цифры обновляются при изменении фильтров.</div>
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Стоимость м² в Москве</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Медианная цена одного квадратного метра по типу жилья. Меняется при выборе города.</div>
       </div>
-      <div class="sec-title" id="distTitle">по округам Москвы</div>
-      <div id="distList"></div>
+      <div id="sqmList"></div>
     </div>
 
-    <!-- Индекс доступности -->
+    <!-- 4. Что влияет на цену -->
     <div class="section-card">
-      <div class="sec-title">индекс доступности по городам</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:14px;line-height:1.5;">лет накоплений при средней зарплате города · без ипотеки</div>
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Что влияет на стоимость квартиры</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:20px;line-height:1.2;">🚇</span>
+          <div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:3px;font-weight:500;">Близость к метро</div><div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Квартира в 5 минутах ходьбы от метро стоит в среднем на 15–25% дороже аналогичной в 20+ минутах. Особенно заметно в спальных районах.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:20px;line-height:1.2;">🏗️</span>
+          <div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:3px;font-weight:500;">Тип и год постройки</div><div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Монолитные дома 2000-х и новее стоят на 10–20% дороже панельных советской постройки. Кирпичные сталинки и дома 1950–60-х — отдельная история: ценятся за высокие потолки и расположение.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:20px;line-height:1.2;">📐</span>
+          <div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:3px;font-weight:500;">Этаж</div><div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Первый и последний этажи дешевле на 5–10%. Средние этажи (3–8) считаются оптимальными. В новых монолитах с хорошим видом верхние этажи наоборот стоят дороже.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:20px;line-height:1.2;">🔑</span>
+          <div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:3px;font-weight:500;">Состояние и отделка</div><div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Квартира с хорошим ремонтом стоит на 8–15% дороже аналогичной без отделки. В новостройках "под ключ" наценка застройщика — 10–20% к цене черновой отделки.</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-size:20px;line-height:1.2;">📍</span>
+          <div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:3px;font-weight:500;">Округ и район</div><div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Разница между ЦАО и ЮВАО — почти двукратная. Внутри одного района цены могут отличаться на 20–30% в зависимости от конкретной улицы и инфраструктуры.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Индекс доступности -->
+    <div class="section-card">
+      <div style="margin-bottom:0.75rem;">
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Индекс доступности жилья</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Сколько лет нужно копить на квартиру при средней зарплате города — без ипотеки. Чем меньше, тем доступнее.</div>
+      </div>
       <div id="accList"></div>
     </div>
 
-    <!-- Email подписка -->
+    <!-- 6. FAQ -->
+    <div class="section-card">
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;">Частые вопросы</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <details style="border-bottom:.5px solid rgba(255,255,255,0.07);padding:14px 0;">
+          <summary style="font-size:13px;color:rgba(255,255,255,0.75);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Почему квартиры в Москве такие дорогие? <span style="color:rgba(255,255,255,0.3);font-size:18px;line-height:1;">+</span></summary>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:10px;">Москва концентрирует около 20% ВВП страны при 8% населения. Высокие зарплаты, внутренняя миграция и ограниченное предложение в хороших локациях создают постоянный спрос. Дополнительный фактор — покупка недвижимости как инструмент сохранения капитала в условиях инфляции.</div>
+        </details>
+        <details style="border-bottom:.5px solid rgba(255,255,255,0.07);padding:14px 0;">
+          <summary style="font-size:13px;color:rgba(255,255,255,0.75);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Что дешевле — вторичка или новостройка? <span style="color:rgba(255,255,255,0.3);font-size:18px;line-height:1;">+</span></summary>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:10px;">В Москве новостройки в среднем на 20–30% дороже вторичного жилья аналогичного метража. Но новостройка даёт юридическую чистоту, современные планировки и часто более низкую ипотечную ставку от застройщика. Вторичка — возможность въехать сразу, без ожидания сдачи и рисков долгостроя.</div>
+        </details>
+        <details style="border-bottom:.5px solid rgba(255,255,255,0.07);padding:14px 0;">
+          <summary style="font-size:13px;color:rgba(255,255,255,0.75);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Когда лучше покупать квартиру? <span style="color:rgba(255,255,255,0.3);font-size:18px;line-height:1;">+</span></summary>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:10px;">Исторически цены в Москве растут в долгосрочной перспективе, поэтому "ждать падения" обычно невыгодно. Лучший момент — когда у вас есть первоначальный взнос 20%+, стабильный доход и ипотечный платёж не превышает 30% от зарплаты. Сезонно: меньше конкуренции в январе и августе.</div>
+        </details>
+        <details style="border-bottom:.5px solid rgba(255,255,255,0.07);padding:14px 0;">
+          <summary style="font-size:13px;color:rgba(255,255,255,0.75);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Как проверить реальную рыночную цену квартиры? <span style="color:rgba(255,255,255,0.3);font-size:18px;line-height:1;">+</span></summary>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:10px;">Медиана на нашем сайте показывает середину рынка — половина квартир стоит дешевле, половина дороже. Для конкретного объекта: найдите 5–10 аналогичных предложений на ЦИАН или Авито в том же районе, той же комнатности и схожем состоянии. Реальная цена сделки обычно на 3–7% ниже цены в объявлении.</div>
+        </details>
+        <details style="padding:14px 0;">
+          <summary style="font-size:13px;color:rgba(255,255,255,0.75);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Стоит ли покупать апартаменты вместо квартиры? <span style="color:rgba(255,255,255,0.3);font-size:18px;line-height:1;">+</span></summary>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:10px;">Апартаменты в Москве стоят на 10–20% дешевле аналогичных квартир, но имеют важные ограничения: нельзя оформить постоянную регистрацию, выше коммунальные платежи и налог на имущество. Подходят для инвестиций или как второе жильё, но не как основное место жительства для семьи с детьми.</div>
+        </details>
+      </div>
+    </div>
+
+    <!-- 7. Email -->
     <div class="email-block">
       <div class="email-title">Индекс цен каждый месяц</div>
       <div class="email-sub">Присылаем медиану по вашему городу, динамику и главное за месяц. Без спама.</div>
@@ -250,6 +311,7 @@ canvas#priceChart{display:block;width:100%;}
 
     <div class="wordmark">skolkost.ru</div>
   </div>
+
 </div>
 
 <!-- Модальное окно -->
@@ -319,15 +381,7 @@ function updateMortgage(){
 }
 
 function updateDistricts(){
-  const show=s.city==='moscow'||s.city==='mo';
-  document.getElementById('distCard').style.display=show?'':'none';
-  if(!show)return;
-  const dists=s.city==='moscow'?moscowDist:moDist;
-  const med=getMedian();
-  const prices=dists.map(d=>({n:d.n,p:Math.round(med*d.m)}));
-  const maxP=Math.max(...prices.map(x=>x.p));
-  document.getElementById('distTitle').textContent=s.city==='moscow'?'по округам Москвы':'по городам МО';
-  document.getElementById('distList').innerHTML=prices.map(p=>`<div class="bar-row"><span class="bar-name">${p.n}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(p.p/maxP*100)}%;background:rgba(255,255,255,0.22);"></div></div><span class="bar-val" style="color:rgba(255,255,255,0.3);">${fmtShort(p.p)}</span></div>`).join('');
+  // районы временно отключены — придут с реальными данными
 }
 
 function updateAccessibility(){
@@ -365,6 +419,41 @@ function drawChart(){
   const now=new Date();ctx.textAlign='center';
   [0,3,6,9,12].forEach(i=>{const d=new Date(now);d.setMonth(d.getMonth()-(12-i));const yr=String(d.getFullYear()).slice(2);ctx.font=`13px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillText(monthsRu[d.getMonth()],xp(i),H-16);ctx.font=`11px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.25)';ctx.fillText("'"+yr,xp(i),H-3);});
   canvas._pts=pts;canvas._xp=xp;canvas._N=N;canvas._W=W;
+}
+
+function updateSqmList(){
+  const el=document.getElementById('sqmList');
+  if(!el)return;
+  const cd=data[s.city];
+  const sqmSizes={studio:28,1:42,2:62,3:85,4:110};
+  const items=[
+    {label:'Студия', key:'studio', size:28},
+    {label:'1-комн.', key:1, size:42},
+    {label:'2-комн.', key:2, size:62},
+    {label:'3-комн.', key:3, size:85},
+    {label:'4+-комн.', key:4, size:110},
+  ];
+  const types=[
+    {t:'new', label:'Новостройка'},
+    {t:'secondary', label:'Вторичка'},
+  ];
+  const pd_new=(cd.flat||cd[Object.keys(cd)[0]]).new;
+  const pd_sec=(cd.flat||cd[Object.keys(cd)[0]]).secondary;
+  const maxVal=Math.max(...items.map(it=>pd_new[it.key][1]/it.size));
+  el.innerHTML=items.map(it=>{
+    const cur=String(it.key)===String(s.rooms);
+    const newSqm=Math.round(pd_new[it.key][1]/it.size);
+    const secSqm=Math.round(pd_sec[it.key][1]/it.size);
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;opacity:${cur?1:0.5};">
+      <span style="font-size:12px;color:rgba(255,255,255,${cur?'0.8':'0.4'});min-width:56px;">${it.label}</span>
+      <div style="flex:1;display:flex;gap:4px;align-items:center;">
+        <div style="flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;">
+          <div style="height:100%;width:${Math.round(newSqm/maxVal*100)}%;background:rgba(255,255,255,${cur?'0.5':'0.2'});border-radius:2px;"></div>
+        </div>
+      </div>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:rgba(255,255,255,${cur?'0.7':'0.3'});min-width:100px;text-align:right;">${fmt(newSqm)} / ${fmt(secSqm)} ₽</span>
+    </div>`;
+  }).join('')+'<div style="font-size:10px;color:rgba(255,255,255,0.2);margin-top:8px;">новостройка / вторичка · ₽ за м²</div>';
 }
 
 function updateRangeBars(){
@@ -406,7 +495,6 @@ function openModal(mode){
   document.getElementById('modalCity').textContent=cityName;
   if(mode==='mortgage'){
     document.getElementById('modalTitle').textContent='Подберём ипотеку бесплатно';
-    document.getElementById('modalSub')&&(document.getElementById('modalSub').textContent='');
   } else {
     document.getElementById('modalTitle').textContent='Подберём квартиру бесплатно';
   }
@@ -424,7 +512,11 @@ function render(){
   document.getElementById('rangeMin').textContent=fmt(lo)+' ₽';
   document.getElementById('rangeMax').textContent=fmt(hi)+' ₽';
   const w=document.getElementById('priceWrap');w.style.animation='none';void w.offsetWidth;w.style.animation='fadein .3s ease';
-  drawChart();updateRangeBars();updateSavings();updateMortgage();updateDistricts();updateAccessibility();
+  // avg sqm sizes per room type
+  const sqm={studio:28,1:42,2:62,3:85,4:110};
+  const sqmEl=document.getElementById('sqmPrice');
+  if(sqmEl){const area=sqm[s.rooms]||50;sqmEl.textContent=fmt(Math.round(med/area));}
+  drawChart();updateRangeBars();updateSqmList();updateSavings();updateMortgage();updateDistricts();updateAccessibility();
 }
 
 document.querySelectorAll('.pill').forEach(btn=>{btn.addEventListener('click',()=>{const g=btn.dataset.group,v=btn.dataset.value;s[g]=v;document.querySelectorAll(`.pill[data-group="${g}"]`).forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();});});
