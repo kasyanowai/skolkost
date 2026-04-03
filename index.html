@@ -32,7 +32,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .pill.active{background:rgba(255,255,255,0.93);border-color:rgba(255,255,255,0.93);color:#0d0d0d;font-weight:500;}
 .price-wrap{text-align:center;}
 @keyframes fadein{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
-.price-num{font-family:'DM Mono',monospace;font-weight:300;font-size:clamp(64px,9vw,120px);color:#f5f5f0;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;}
+.price-num{font-family:'DM Mono',monospace;font-weight:300;font-size:clamp(52px,7vw,96px);color:#f5f5f0;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .price-rub{color:rgba(255,255,255,0.22);font-size:.58em;}
 .meta{margin-top:14px;font-size:11.5px;color:rgba(255,255,255,0.65);letter-spacing:.6px;display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;}
 .mdot{width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;}
@@ -44,7 +44,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .data-date{margin-top:8px;font-size:10.5px;color:rgba(255,255,255,0.5);letter-spacing:.4px;}
 .chart-wrap{width:100%;max-width:420px;margin-top:1.75rem;}
 .chart-label{font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
-.chart-canvas-wrap{position:relative;width:100%;}
+.chart-canvas-wrap{position:relative;width:100%;margin-bottom:0.5rem;}
 canvas#priceChart{display:block;width:100%;}
 .chart-tooltip{position:absolute;background:#1e1e1e;border:.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 9px;font-size:11px;color:rgba(255,255,255,0.75);font-family:'DM Mono',monospace;font-weight:300;pointer-events:none;white-space:nowrap;display:none;transform:translateX(-50%);}
 .cta-btn{margin-top:2rem;background:transparent;border:.5px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85);border-radius:100px;padding:10px 24px;font-size:13px;cursor:pointer;transition:all .15s;outline:none;}
@@ -140,8 +140,8 @@ canvas#priceChart{display:block;width:100%;}
         <button class="pill" data-group="proptype" data-value="apart" id="pillAparts">Апартаменты</button>
       </div>
       <div class="filter-row">
-        <button class="pill active" data-group="market" data-value="secondary">Вторичка</button>
-        <button class="pill" data-group="market" data-value="new">Новостройка</button>
+        <button class="pill active" data-group="market" data-value="new">Новостройка</button>
+        <button class="pill" data-group="market" data-value="secondary">Вторичка</button>
       </div>
       <div class="filter-row">
         <button class="pill" data-group="rooms" data-value="studio">Студия</button>
@@ -170,17 +170,22 @@ canvas#priceChart{display:block;width:100%;}
     <div class="chart-wrap">
       <div class="chart-label">динамика медианы за 12 месяцев</div>
       <div class="chart-canvas-wrap" id="chartWrap">
-        <canvas id="priceChart" height="88"></canvas>
+        <canvas id="priceChart" height="220"></canvas>
         <div class="chart-tooltip" id="chartTooltip"></div>
       </div>
     </div>
+    <div id="rangeBarWrap" style="width:100%;max-width:420px;margin-top:0.75rem;display:flex;flex-direction:column;gap:5px;"></div>
     <button class="cta-btn" id="ctaBtn">Бесплатно подберём варианты →</button>
   </div>
 
   <div class="sections">
     <!-- Калькулятор накоплений -->
     <div class="section-card">
-      <div class="sec-title">сколько копить на квартиру</div>
+      <div style="margin-bottom:0.75rem;">
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Сколько копить на квартиру?</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Введите ваш ежемесячный доход и укажите долю которую вы готовы откладывать — мы посчитаем сколько лет понадобится без ипотеки.</div>
+      </div>
+      <div class="sec-title">параметры</div>
       <div class="row"><span class="lbl">ваш доход</span><div style="display:flex;align-items:center;gap:6px;"><input class="sec-inp" type="number" id="incomeInp" value="100000" min="10000" step="5000"><span class="unit">₽/мес</span></div></div>
       <div class="row"><span class="lbl">откладываю&nbsp;<b id="savPctLbl">30%</b></span><div class="slider-row"><input type="range" min="5" max="80" value="30" step="5" id="savPct"></div></div>
       <div style="margin-top:1.25rem;text-align:center;">
@@ -193,7 +198,11 @@ canvas#priceChart{display:block;width:100%;}
 
     <!-- Ипотечный калькулятор -->
     <div class="section-card">
-      <div class="sec-title">ипотечный калькулятор</div>
+      <div style="margin-bottom:0.75rem;">
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Ипотечный калькулятор</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Стоимость подтягивается автоматически из выбранного фильтра. Настройте первоначальный взнос, ставку и срок — увидите ежемесячный платёж и итоговую переплату.</div>
+      </div>
+      <div class="sec-title">параметры</div>
       <div class="row"><span class="lbl">стоимость квартиры</span><span class="sec-val" id="mortPrice">8 400 000 ₽</span></div>
       <div class="row"><span class="lbl">взнос&nbsp;<b id="downPctLbl">20%</b>&nbsp;=&nbsp;<b id="downAmtLbl">1 680 000 ₽</b></span><div class="slider-row"><input type="range" min="10" max="80" value="20" step="5" id="downPct"></div></div>
       <div class="row"><span class="lbl">ставка</span><div style="display:flex;align-items:center;gap:5px;"><input class="sec-inp sec-inp-sm" type="number" id="rateInp" value="15" min="1" max="30" step="0.5"><span class="unit">% год.</span></div></div>
@@ -212,6 +221,10 @@ canvas#priceChart{display:block;width:100%;}
 
     <!-- Районы -->
     <div class="section-card" id="distCard">
+      <div style="margin-bottom:0.75rem;">
+        <div style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Сравнение по районам</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Медианная цена масштабируется под выбранный тип и количество комнат. Цифры обновляются при изменении фильтров.</div>
+      </div>
       <div class="sec-title" id="distTitle">по округам Москвы</div>
       <div id="distList"></div>
     </div>
@@ -269,7 +282,7 @@ const marketNames={secondary:'вторичка',new:'новостройка'};
 const roomNames={studio:'студия',1:'1-комн.',2:'2-комн.',3:'3-комн.',4:'4-комн.'};
 const monthsRu=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
 const cityCoords={moscow:[55.75,37.62],spb:[59.93,30.32],ekb:[56.84,60.60],nsk:[55.02,82.92],kzn:[55.79,49.12],krd:[45.04,38.98],nnov:[56.32,44.00],chel:[55.15,61.40],smr:[53.19,50.15],rnd:[47.23,39.72]};
-let s={city:'moscow',proptype:'flat',market:'secondary',rooms:'1'};
+let s={city:'moscow',proptype:'flat',market:'new',rooms:'1'};
 let modalMode='flat';
 function fmt(n){return Math.round(n).toLocaleString('ru-RU');}
 function fmtShort(n){return n>=1e6?(n/1e6).toFixed(1)+' М':Math.round(n/1e3)+'К';}
@@ -337,12 +350,12 @@ function getChartPoints(){const cd=data[s.city],pd=cd[s.proptype]||cd.flat;const
 function drawChart(){
   const canvas=document.getElementById('priceChart'),wrap=document.getElementById('chartWrap');
   if(!canvas||!wrap)return;
-  const dpr=window.devicePixelRatio||1,W=wrap.offsetWidth||360,H=88;
+  const dpr=window.devicePixelRatio||1,W=wrap.offsetWidth||360,H=220;
   canvas.style.width=W+'px';canvas.style.height=H+'px';canvas.width=W*dpr;canvas.height=H*dpr;
   const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
   const pts=getChartPoints();
   const minV=Math.min(...pts)*.993,maxV=Math.max(...pts)*1.007,range=maxV-minV;
-  const pL=4,pR=4,pT=10,pB=26,cW=W-pL-pR,cH=H-pT-pB,N=12;
+  const pL=4,pR=4,pT=14,pB=32,cW=W-pL-pR,cH=H-pT-pB,N=12;
   const xp=i=>pL+(i/N)*cW,yp=v=>pT+cH-((v-minV)/range)*cH;
   function buildPath(){ctx.beginPath();ctx.moveTo(xp(0),yp(pts[0]));for(let i=1;i<=N;i++){const x0=xp(i-1),y0=yp(pts[i-1]),x1=xp(i),y1=yp(pts[i]),cpx=(x0+x1)/2;ctx.bezierCurveTo(cpx,y0,cpx,y1,x1,y1);}}
   buildPath();ctx.lineTo(xp(N),pT+cH);ctx.lineTo(xp(0),pT+cH);ctx.closePath();
@@ -350,8 +363,37 @@ function drawChart(){
   buildPath();ctx.strokeStyle='rgba(255,255,255,0.45)';ctx.lineWidth=1.5;ctx.lineJoin='round';ctx.stroke();
   for(let i=0;i<=N;i++){const isLast=i===N;ctx.beginPath();ctx.arc(xp(i),yp(pts[i]),isLast?3.5:2.5,0,Math.PI*2);ctx.fillStyle=isLast?'rgba(255,255,255,0.92)':'rgba(255,255,255,0.32)';ctx.fill();}
   const now=new Date();ctx.textAlign='center';
-  [0,3,6,9,12].forEach(i=>{const d=new Date(now);d.setMonth(d.getMonth()-(12-i));const yr=String(d.getFullYear()).slice(2);ctx.font=`10px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.22)';ctx.fillText(monthsRu[d.getMonth()],xp(i),H-13);ctx.font=`9px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillText("'"+yr,xp(i),H-3);});
+  [0,3,6,9,12].forEach(i=>{const d=new Date(now);d.setMonth(d.getMonth()-(12-i));const yr=String(d.getFullYear()).slice(2);ctx.font=`13px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillText(monthsRu[d.getMonth()],xp(i),H-16);ctx.font=`11px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.25)';ctx.fillText("'"+yr,xp(i),H-3);});
   canvas._pts=pts;canvas._xp=xp;canvas._N=N;canvas._W=W;
+}
+
+function updateRangeBars(){
+  const wrap=document.getElementById('rangeBarWrap');
+  if(!wrap)return;
+  const cd=data[s.city],pd=cd[s.proptype]||cd.flat;
+  const items=[
+    {label:'студия', key:'studio'},
+    {label:'1 комн.', key:1},
+    {label:'2 комн.', key:2},
+    {label:'3 комн.', key:3},
+    {label:'4+ комн.', key:4},
+  ];
+  const vals=items.map(it=>({...it, lo:pd[s.market][it.key][0], med:pd[s.market][it.key][1], hi:pd[s.market][it.key][2]}));
+  const maxHi=Math.max(...vals.map(v=>v.hi));
+  wrap.innerHTML=vals.map(v=>{
+    const cur=String(v.key)===String(s.rooms);
+    const loW=Math.round(v.lo/maxHi*100);
+    const hiW=Math.round(v.hi/maxHi*100);
+    const medW=Math.round(v.med/maxHi*100);
+    return`<div style="display:flex;align-items:center;gap:8px;opacity:${cur?1:0.45};transition:opacity .2s;">
+      <span style="font-size:11px;color:rgba(255,255,255,${cur?'0.8':'0.4'});min-width:52px;font-family:'DM Mono',monospace;">${v.label}</span>
+      <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;position:relative;">
+        <div style="position:absolute;left:${loW}%;width:${hiW-loW}%;height:100%;background:rgba(255,255,255,${cur?'0.18':'0.1'});border-radius:3px;"></div>
+        <div style="position:absolute;left:${medW-0.5}%;width:2px;height:100%;background:rgba(255,255,255,${cur?'0.9':'0.4'});border-radius:1px;"></div>
+      </div>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:rgba(255,255,255,${cur?'0.65':'0.3'});min-width:68px;text-align:right;">${fmt(v.med)} ₽</span>
+    </div>`;
+  }).join('');
 }
 
 const chartCanvas=document.getElementById('priceChart'),tooltip=document.getElementById('chartTooltip'),nowD=new Date();
@@ -382,7 +424,7 @@ function render(){
   document.getElementById('rangeMin').textContent=fmt(lo)+' ₽';
   document.getElementById('rangeMax').textContent=fmt(hi)+' ₽';
   const w=document.getElementById('priceWrap');w.style.animation='none';void w.offsetWidth;w.style.animation='fadein .3s ease';
-  drawChart();updateSavings();updateMortgage();updateDistricts();updateAccessibility();
+  drawChart();updateRangeBars();updateSavings();updateMortgage();updateDistricts();updateAccessibility();
 }
 
 document.querySelectorAll('.pill').forEach(btn=>{btn.addEventListener('click',()=>{const g=btn.dataset.group,v=btn.dataset.value;s[g]=v;document.querySelectorAll(`.pill[data-group="${g}"]`).forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();});});
