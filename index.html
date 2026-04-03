@@ -11,7 +11,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:#0d0d0d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;}.page{width:100%;max-width:680px;}
+body{background:#0d0d0d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;}.page{width:100%;max-width:960px;}
 input[type=range]{-webkit-appearance:none;appearance:none;height:3px;background:rgba(255,255,255,0.12);border-radius:2px;outline:none;cursor:pointer;flex:1;}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.7);cursor:pointer;}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
@@ -49,7 +49,7 @@ canvas#priceChart{display:block;width:100%;}
 .chart-tooltip{position:absolute;background:#1e1e1e;border:.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 9px;font-size:11px;color:rgba(255,255,255,0.75);font-family:'DM Mono',monospace;font-weight:300;pointer-events:none;white-space:nowrap;display:none;transform:translateX(-50%);}
 .cta-btn{margin-top:2rem;background:transparent;border:.5px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85);border-radius:100px;padding:10px 24px;font-size:13px;cursor:pointer;transition:all .15s;outline:none;}
 .cta-btn:hover{border-color:rgba(255,255,255,0.5);color:#fff;background:rgba(255,255,255,0.05);}
-.sections{width:100%;max-width:460px;padding:0 1.25rem 4rem;display:flex;flex-direction:column;gap:10px;}
+.sections{width:100%;max-width:900px;padding:0 1.5rem 4rem;display:flex;flex-direction:column;gap:10px;}
 .section-card{background:#111;border:.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.25rem 1.25rem 1.5rem;}
 .sec-title{font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;}
 .row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
@@ -111,7 +111,16 @@ canvas#priceChart{display:block;width:100%;}
 .success-msg{display:none;text-align:center;padding:1rem 0;}
 .success-icon{font-size:32px;margin-bottom:10px;}
 .success-text{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.5;}
-details summary::-webkit-details-marker{display:none;} details[open] summary span{transform:rotate(45deg);display:inline-block;} @media(max-width:480px){.email-row{flex-direction:column;}.email-btn{width:100%;}} @media(min-width:600px){.page-title{font-size:20px;} .meta{font-size:16px;letter-spacing:.4px;} .lbl{font-size:15px;} .sec-title{font-size:13px;} .data-date{font-size:14px;} .range-label{font-size:14px;} .range-val{font-size:15px;} .chart-label{font-size:13px;} .bar-name,.bar-val{font-size:14px;} .acc-name{font-size:14px;} .cta-btn{font-size:16px;padding:14px 32px;} .city-opt{font-size:16px;padding:11px 20px;} .email-title{font-size:20px;} .email-sub{font-size:15px;} .email-inp,.email-btn{font-size:15px;padding:12px 16px;} .pill{font-size:15px;padding:8px 20px;} .big-num{font-size:52px;} .big-unit{font-size:26px;} .mort-label{font-size:13px;} .sec-val{font-size:15px;} .section-card{padding:1.75rem;} .sec-inp{font-size:14px;} .unit{font-size:14px;} .modal-title{font-size:20px;} .modal-sub{font-size:15px;} .field-input{font-size:16px;} .submit-btn{font-size:15px;} .mort-cta{font-size:14px;} .hdivider{height:14px;} .email-block{padding:2rem 1.5rem;} .wordmark{font-size:12px;}}
+details summary::-webkit-details-marker{display:none;} details[open] summary span{transform:rotate(45deg);display:inline-block;} @media(max-width:480px){.email-row{flex-direction:column;}.email-btn{width:100%;}} @media(min-width:760px){
+  .sections{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;}
+  .sections .section-card:nth-child(5),
+  .sections .section-card:nth-child(6),
+  .sections .email-block{grid-column:1 / -1;}
+  .fold1{max-width:960px;}
+  .chart-wrap{max-width:620px;}
+  #rangeBarWrap{max-width:620px;}
+}
+@media(min-width:600px){.page-title{font-size:20px;} .meta{font-size:16px;letter-spacing:.4px;} .lbl{font-size:15px;} .sec-title{font-size:13px;} .data-date{font-size:14px;} .range-label{font-size:14px;} .range-val{font-size:15px;} .chart-label{font-size:13px;} .bar-name,.bar-val{font-size:14px;} .acc-name{font-size:14px;} .cta-btn{font-size:16px;padding:14px 32px;} .city-opt{font-size:16px;padding:11px 20px;} .email-title{font-size:20px;} .email-sub{font-size:15px;} .email-inp,.email-btn{font-size:15px;padding:12px 16px;} .pill{font-size:15px;padding:8px 20px;} .big-num{font-size:52px;} .big-unit{font-size:26px;} .mort-label{font-size:13px;} .sec-val{font-size:15px;} .section-card{padding:1.75rem;} .sec-inp{font-size:14px;} .unit{font-size:14px;} .modal-title{font-size:20px;} .modal-sub{font-size:15px;} .field-input{font-size:16px;} .submit-btn{font-size:15px;} .mort-cta{font-size:14px;} .hdivider{height:14px;} .email-block{padding:2rem 1.5rem;} .wordmark{font-size:12px;}}
 </style>
   <!-- Canonical -->
   <link rel="canonical" href="https://skolkost.ru/">
@@ -322,7 +331,7 @@ details summary::-webkit-details-marker{display:none;} details[open] summary spa
       <div style="margin-bottom:1rem;">
         <h2 style="font-size:15px;color:rgba(255,255,255,0.85);font-weight:500;margin-bottom:4px;">Что влияет на стоимость квартиры</h2>
       </div>
-      <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
         <div style="display:flex;gap:12px;align-items:flex-start;">
           <span style="font-size:20px;line-height:1.2;">🚇</span>
           <div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:3px;font-weight:500;">Близость к метро</div><div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Квартира в 5 минутах ходьбы от метро стоит в среднем на 15–25% дороже аналогичной в 20+ минутах. Особенно заметно в спальных районах.</div></div>
@@ -398,7 +407,7 @@ details summary::-webkit-details-marker{display:none;} details[open] summary spa
 
 
     <!-- SEO Static Text Block — индексируется поисковиками -->
-    <div style="width:100%;max-width:680px;padding:0 1.25rem 1rem;" itemscope itemtype="https://schema.org/Article">
+    <div style="width:100%;max-width:900px;padding:0 1.25rem 1rem;grid-column:1 / -1;" itemscope itemtype="https://schema.org/Article">
       <div style="border-top:.5px solid rgba(255,255,255,0.07);padding-top:2rem;">
 
         <h2 style="font-size:17px;color:rgba(255,255,255,0.7);font-weight:500;margin-bottom:1rem;">Стоимость квартиры в Москве в 2026 году</h2>
@@ -446,7 +455,7 @@ details summary::-webkit-details-marker{display:none;} details[open] summary spa
       </div>
     </div>
 
-    <div class="wordmark">skolkost.ru</div>
+    <div class="wordmark" style="grid-column:1 / -1;">skolkost.ru</div>
   </div>
 
 </div>
