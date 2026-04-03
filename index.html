@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Стоимость квартиры в Москве — СколькоСтоит.ру</title>
+<meta name="description" content="Актуальная медианная стоимость квартир в Москве, Санкт-Петербурге и других городах России. Ипотечный калькулятор, динамика цен, индекс доступности.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/dm-mono@5.0.0/300.css">
+<!-- Яндекс.Метрика — вставь свой номер счётчика -->
+<!-- <script type="text/javascript">...</script> -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#0d0d0d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+input[type=range]{-webkit-appearance:none;appearance:none;height:3px;background:rgba(255,255,255,0.12);border-radius:2px;outline:none;cursor:pointer;flex:1;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.7);cursor:pointer;}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+.fold1{min-height:100vh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5.5rem 1.5rem 2.5rem;position:relative;}
+.page-title{position:absolute;top:2rem;left:0;right:0;text-align:center;font-size:14px;color:rgba(255,255,255,0.35);}
+.city-trigger{color:rgba(255,255,255,0.55);text-decoration:underline;text-decoration-color:rgba(255,255,255,0.25);text-decoration-style:dotted;text-underline-offset:3px;cursor:pointer;transition:color .12s;position:relative;}
+.city-trigger:hover{color:rgba(255,255,255,0.85);}
+.city-dropdown{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a1a1a;border:.5px solid rgba(255,255,255,0.12);border-radius:10px;overflow:hidden;z-index:10;min-width:210px;}
+.city-dropdown.open{display:block;}
+.city-opt{padding:9px 16px;font-size:13px;color:rgba(255,255,255,0.5);cursor:pointer;transition:background .1s;white-space:nowrap;text-align:left;}
+.city-opt:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.9);}
+.city-opt.selected{color:rgba(255,255,255,0.9);}
+.filters{display:flex;flex-direction:column;align-items:center;gap:7px;margin-bottom:2rem;}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+.pill{background:transparent;border:.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.28);border-radius:100px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all .15s;outline:none;}
+.pill:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.6);}
+.pill.active{background:rgba(255,255,255,0.93);border-color:rgba(255,255,255,0.93);color:#0d0d0d;font-weight:500;}
+.price-wrap{text-align:center;}
+@keyframes fadein{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+.price-num{font-family:'DM Mono',monospace;font-weight:300;font-size:clamp(44px,12vw,80px);color:#f5f5f0;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;}
+.price-rub{color:rgba(255,255,255,0.22);font-size:.58em;}
+.meta{margin-top:14px;font-size:11.5px;color:rgba(255,255,255,0.2);letter-spacing:.6px;display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;}
+.mdot{width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,0.15);display:inline-block;}
+.trend{color:#5fb383;}
+.range-row{display:flex;gap:6px;align-items:center;justify-content:center;margin-top:5px;}
+.range-label{font-size:11px;color:rgba(255,255,255,0.14);}
+.range-val{font-family:'DM Mono',monospace;font-weight:300;font-size:11px;color:rgba(255,255,255,0.22);}
+.hdivider{width:1px;height:10px;background:rgba(255,255,255,0.1);}
+.data-date{margin-top:8px;font-size:10.5px;color:rgba(255,255,255,0.12);letter-spacing:.4px;}
+.chart-wrap{width:100%;max-width:420px;margin-top:1.75rem;}
+.chart-label{font-size:10px;color:rgba(255,255,255,0.12);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
+.chart-canvas-wrap{position:relative;width:100%;}
+canvas#priceChart{display:block;width:100%;}
+.chart-tooltip{position:absolute;background:#1e1e1e;border:.5px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 9px;font-size:11px;color:rgba(255,255,255,0.75);font-family:'DM Mono',monospace;font-weight:300;pointer-events:none;white-space:nowrap;display:none;transform:translateX(-50%);}
+.cta-btn{margin-top:2rem;background:transparent;border:.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.65);border-radius:100px;padding:10px 24px;font-size:13px;cursor:pointer;transition:all .15s;outline:none;}
+.cta-btn:hover{border-color:rgba(255,255,255,0.5);color:#fff;background:rgba(255,255,255,0.05);}
+.sections{width:100%;max-width:460px;padding:0 1.25rem 4rem;display:flex;flex-direction:column;gap:10px;}
+.section-card{background:#111;border:.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.25rem 1.25rem 1.5rem;}
+.sec-title{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.row:last-child{margin-bottom:0;}
+.lbl{font-size:12px;color:rgba(255,255,255,0.35);}
+.lbl b{color:rgba(255,255,255,0.55);font-weight:400;}
+.sec-val{font-size:12px;color:rgba(255,255,255,0.4);font-family:'DM Mono',monospace;font-weight:300;}
+.sec-inp{background:#1a1a1a;border:.5px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.7);font-size:12px;padding:5px 8px;font-family:'DM Mono',monospace;font-weight:300;width:110px;outline:none;text-align:right;}
+.sec-inp:focus{border-color:rgba(255,255,255,0.25);}
+.sec-inp-sm{width:60px;}
+.slider-row{display:flex;align-items:center;gap:8px;flex:1;}
+.unit{font-size:12px;color:rgba(255,255,255,0.2);}
+.big-num{font-family:'DM Mono',monospace;font-weight:300;font-size:36px;color:rgba(255,255,255,0.88);letter-spacing:-1px;font-variant-numeric:tabular-nums;}
+.big-unit{font-size:18px;color:rgba(255,255,255,0.3);}
+.sec-sub{font-size:11.5px;color:rgba(255,255,255,0.2);margin-top:6px;}
+.sec-sub b{color:rgba(255,255,255,0.42);font-weight:400;}
+.divider{border:none;border-top:.5px solid rgba(255,255,255,0.06);margin:12px 0;}
+.mort-result{text-align:center;}
+.mort-label{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:.5px;margin-bottom:4px;}
+.mort-details{display:flex;justify-content:space-between;margin-top:1rem;}
+.mort-item-label{font-size:10px;color:rgba(255,255,255,0.15);margin-bottom:3px;}
+.mort-cta{margin-top:1.25rem;width:100%;background:transparent;border:.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.45);border-radius:100px;padding:9px;font-size:12px;cursor:pointer;transition:all .15s;outline:none;}
+.mort-cta:hover{border-color:rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.bar-name{font-size:12px;color:rgba(255,255,255,0.4);min-width:74px;}
+.bar-track{flex:1;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;}
+.bar-val{font-size:11px;font-family:'DM Mono',monospace;font-weight:300;min-width:46px;text-align:right;}
+.acc-row{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.acc-num{font-size:10px;color:rgba(255,255,255,0.18);min-width:16px;}
+.acc-name{font-size:12px;min-width:120px;}
+.email-block{background:#111;border:.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem 1.25rem;text-align:center;}
+.email-title{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:6px;}
+.email-sub{font-size:12px;color:rgba(255,255,255,0.25);margin-bottom:1.25rem;line-height:1.5;}
+.email-row{display:flex;gap:8px;}
+.email-inp{flex:1;background:#1a1a1a;border:.5px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.8);font-size:13px;padding:10px 12px;outline:none;transition:border-color .12s;}
+.email-inp:focus{border-color:rgba(255,255,255,0.3);}
+.email-inp::placeholder{color:rgba(255,255,255,0.2);}
+.email-btn{background:rgba(255,255,255,0.9);border:none;border-radius:8px;color:#0d0d0d;font-size:13px;font-weight:500;padding:10px 16px;cursor:pointer;white-space:nowrap;transition:opacity .12s;}
+.email-btn:hover{opacity:.85;}
+.email-disc{font-size:10px;color:rgba(255,255,255,0.12);margin-top:8px;}
+.email-success{display:none;font-size:13px;color:#5fb383;margin-top:8px;}
+.wordmark{text-align:center;font-size:10px;color:rgba(255,255,255,0.07);letter-spacing:2.5px;text-transform:uppercase;padding:1.5rem 0 .5rem;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;z-index:100;padding:1rem;}
+.overlay.open{display:flex;}
+.modal{background:#161616;border:.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:2rem 1.75rem;width:100%;max-width:340px;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:rgba(255,255,255,0.25);font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;}
+.modal-close:hover{color:rgba(255,255,255,0.6);}
+.modal-title{font-size:16px;color:rgba(255,255,255,0.88);margin-bottom:6px;font-weight:500;}
+.modal-sub{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:1.5rem;line-height:1.6;}
+.modal-sub b{color:rgba(255,255,255,0.5);font-weight:400;}
+.field-label{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:.5px;margin-bottom:6px;display:block;text-transform:uppercase;}
+.field-input{width:100%;background:rgba(255,255,255,0.05);border:.5px solid rgba(255,255,255,0.12);border-radius:8px;color:rgba(255,255,255,0.85);font-size:14px;padding:10px 12px;outline:none;margin-bottom:1rem;transition:border-color .12s;}
+.field-input:focus{border-color:rgba(255,255,255,0.3);}
+.field-input::placeholder{color:rgba(255,255,255,0.2);}
+.submit-btn{width:100%;background:rgba(255,255,255,0.92);border:none;border-radius:8px;color:#0d0d0d;font-size:13px;font-weight:500;padding:11px;cursor:pointer;transition:opacity .12s;}
+.submit-btn:hover{opacity:.88;}
+.modal-disc{font-size:10px;color:rgba(255,255,255,0.15);text-align:center;margin-top:10px;line-height:1.5;}
+.success-msg{display:none;text-align:center;padding:1rem 0;}
+.success-icon{font-size:32px;margin-bottom:10px;}
+.success-text{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.5;}
+@media(max-width:480px){.email-row{flex-direction:column;}.email-btn{width:100%;}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="fold1">
+    <div class="page-title">
+      Стоимость квартиры в&nbsp;<span class="city-trigger" id="cityTrigger">Москве</span>
+      <div class="city-dropdown" id="cityDropdown">
+        <div class="city-opt selected" data-key="moscow" data-gen="Москве" data-aparts="1">Москва</div>
+        <div class="city-opt" data-key="mo" data-gen="Московской области" data-aparts="0">Московская область</div>
+        <div class="city-opt" data-key="spb" data-gen="Санкт-Петербурге" data-aparts="1">Санкт-Петербург</div>
+        <div class="city-opt" data-key="lo" data-gen="Ленинградской области" data-aparts="0">Ленинградская область</div>
+        <div class="city-opt" data-key="ekb" data-gen="Екатеринбурге" data-aparts="0">Екатеринбург</div>
+        <div class="city-opt" data-key="nsk" data-gen="Новосибирске" data-aparts="0">Новосибирск</div>
+        <div class="city-opt" data-key="kzn" data-gen="Казани" data-aparts="0">Казань</div>
+        <div class="city-opt" data-key="krd" data-gen="Краснодаре" data-aparts="0">Краснодар</div>
+        <div class="city-opt" data-key="nnov" data-gen="Нижнем Новгороде" data-aparts="0">Нижний Новгород</div>
+        <div class="city-opt" data-key="chel" data-gen="Челябинске" data-aparts="0">Челябинск</div>
+        <div class="city-opt" data-key="smr" data-gen="Самаре" data-aparts="0">Самара</div>
+        <div class="city-opt" data-key="rnd" data-gen="Ростове-на-Дону" data-aparts="0">Ростов-на-Дону</div>
+      </div>
+    </div>
+    <div class="filters">
+      <div class="filter-row">
+        <button class="pill active" data-group="proptype" data-value="flat">Квартира</button>
+        <button class="pill" data-group="proptype" data-value="apart" id="pillAparts">Апартаменты</button>
+      </div>
+      <div class="filter-row">
+        <button class="pill active" data-group="market" data-value="secondary">Вторичка</button>
+        <button class="pill" data-group="market" data-value="new">Новостройка</button>
+      </div>
+      <div class="filter-row">
+        <button class="pill" data-group="rooms" data-value="studio">Студия</button>
+        <button class="pill active" data-group="rooms" data-value="1">1 комн.</button>
+        <button class="pill" data-group="rooms" data-value="2">2 комн.</button>
+        <button class="pill" data-group="rooms" data-value="3">3 комн.</button>
+        <button class="pill" data-group="rooms" data-value="4">4+ комн.</button>
+      </div>
+    </div>
+    <div class="price-wrap" id="priceWrap">
+      <div class="price-num" id="priceNum">8 400 000 <span class="price-rub">₽</span></div>
+      <div class="meta">
+        <span>медиана</span><span class="mdot"></span>
+        <span id="metaProptype">квартира</span><span class="mdot"></span>
+        <span id="metaRooms">1-комн.</span><span class="mdot"></span>
+        <span id="metaMarket">вторичка</span><span class="mdot"></span>
+        <span class="trend" id="metaTrend">↑ 3.2% за месяц</span>
+      </div>
+      <div class="range-row">
+        <span class="range-label">от</span><span class="range-val" id="rangeMin">5 800 000 ₽</span>
+        <span class="hdivider"></span>
+        <span class="range-label">до</span><span class="range-val" id="rangeMax">14 200 000 ₽</span>
+      </div>
+      <div class="data-date">данные актуальны на 1 апреля 2026</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-label">динамика медианы за 12 месяцев</div>
+      <div class="chart-canvas-wrap" id="chartWrap">
+        <canvas id="priceChart" height="88"></canvas>
+        <div class="chart-tooltip" id="chartTooltip"></div>
+      </div>
+    </div>
+    <button class="cta-btn" id="ctaBtn">Бесплатно подберём варианты →</button>
+  </div>
+
+  <div class="sections">
+    <!-- Калькулятор накоплений -->
+    <div class="section-card">
+      <div class="sec-title">сколько копить на квартиру</div>
+      <div class="row"><span class="lbl">ваш доход</span><div style="display:flex;align-items:center;gap:6px;"><input class="sec-inp" type="number" id="incomeInp" value="100000" min="10000" step="5000"><span class="unit">₽/мес</span></div></div>
+      <div class="row"><span class="lbl">откладываю&nbsp;<b id="savPctLbl">30%</b></span><div class="slider-row"><input type="range" min="5" max="80" value="30" step="5" id="savPct"></div></div>
+      <div style="margin-top:1.25rem;text-align:center;">
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:8px;">
+          <span class="big-num" id="yearsResult">23.3</span><span class="big-unit" id="yearsWord">года</span>
+        </div>
+        <div class="sec-sub">откладывая <b id="savAmt">30 000 ₽</b> в месяц</div>
+      </div>
+    </div>
+
+    <!-- Ипотечный калькулятор -->
+    <div class="section-card">
+      <div class="sec-title">ипотечный калькулятор</div>
+      <div class="row"><span class="lbl">стоимость квартиры</span><span class="sec-val" id="mortPrice">8 400 000 ₽</span></div>
+      <div class="row"><span class="lbl">взнос&nbsp;<b id="downPctLbl">20%</b>&nbsp;=&nbsp;<b id="downAmtLbl">1 680 000 ₽</b></span><div class="slider-row"><input type="range" min="10" max="80" value="20" step="5" id="downPct"></div></div>
+      <div class="row"><span class="lbl">ставка</span><div style="display:flex;align-items:center;gap:5px;"><input class="sec-inp sec-inp-sm" type="number" id="rateInp" value="15" min="1" max="30" step="0.5"><span class="unit">% год.</span></div></div>
+      <div class="row"><span class="lbl">срок&nbsp;<b id="termLbl">20 лет</b></span><div class="slider-row"><input type="range" min="5" max="30" value="20" step="1" id="termSlider"></div></div>
+      <hr class="divider">
+      <div class="mort-result">
+        <div class="mort-label">ежемесячный платёж</div>
+        <span class="big-num" id="monthlyPay">73 500 ₽</span>
+      </div>
+      <div class="mort-details">
+        <div><div class="mort-item-label">переплата</div><div class="sec-val" id="overpay">9 560 000 ₽</div></div>
+        <div style="text-align:right"><div class="mort-item-label">итого с %</div><div class="sec-val" id="totalPay">18 280 000 ₽</div></div>
+      </div>
+      <button class="mort-cta" id="mortCtaBtn">Подобрать ипотеку бесплатно →</button>
+    </div>
+
+    <!-- Районы -->
+    <div class="section-card" id="distCard">
+      <div class="sec-title" id="distTitle">по округам Москвы</div>
+      <div id="distList"></div>
+    </div>
+
+    <!-- Индекс доступности -->
+    <div class="section-card">
+      <div class="sec-title">индекс доступности по городам</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.18);margin-bottom:14px;line-height:1.5;">лет накоплений при средней зарплате города · без ипотеки</div>
+      <div id="accList"></div>
+    </div>
+
+    <!-- Email подписка -->
+    <div class="email-block">
+      <div class="email-title">Индекс цен каждый месяц</div>
+      <div class="email-sub">Присылаем медиану по вашему городу, динамику и главное за месяц. Без спама.</div>
+      <div class="email-row">
+        <input class="email-inp" type="email" id="emailInp" placeholder="ваша@почта.ру">
+        <button class="email-btn" id="emailBtn">Подписаться</button>
+      </div>
+      <div class="email-disc">Отписаться можно в любой момент</div>
+      <div class="email-success" id="emailSuccess">✓ Вы подписаны! Первый выпуск придёт 1 мая.</div>
+    </div>
+
+    <div class="wordmark">skolkost.ru</div>
+  </div>
+</div>
+
+<!-- Модальное окно -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <div id="formContent">
+      <div class="modal-title" id="modalTitle">Подберём квартиру бесплатно</div>
+      <div class="modal-sub">Укажите телефон — наш консультант свяжется с вами и подберёт варианты в&nbsp;<b id="modalCity">Москве</b> по вашему бюджету. Это бесплатно и ни к чему не обязывает.</div>
+      <label class="field-label">Телефон</label>
+      <input class="field-input" id="fieldPhone" type="tel" placeholder="+7 900 000 00 00">
+      <button class="submit-btn" id="submitBtn">Жду звонка</button>
+      <div class="modal-disc">Нажимая кнопку, вы соглашаетесь с передачей номера телефона нашему партнёру</div>
+    </div>
+    <div class="success-msg" id="successMsg">
+      <div class="success-icon">✓</div>
+      <div class="success-text">Заявка принята.<br>Консультант свяжется с вами<br>в течение 15 минут.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const data={moscow:{flat:{secondary:{studio:[5100000,6200000,8900000],1:[5800000,8400000,14200000],2:[9800000,13500000,22000000],3:[15000000,19800000,35000000],4:[24000000,32000000,58000000]},new:{studio:[5900000,7100000,10200000],1:[7200000,10200000,17500000],2:[11500000,15800000,26000000],3:[18000000,24000000,42000000],4:[29000000,38000000,70000000]}},apart:{secondary:{studio:[4800000,5900000,8400000],1:[5500000,7900000,13000000],2:[9200000,12800000,20000000],3:[14000000,18500000,32000000],4:[22000000,30000000,54000000]},new:{studio:[5600000,6800000,9800000],1:[6800000,9700000,16000000],2:[11000000,15000000,24500000],3:[17000000,22500000,39000000],4:[27000000,36000000,65000000]}}},mo:{flat:{secondary:{studio:[2800000,3600000,5400000],1:[3400000,4800000,7800000],2:[5500000,7600000,12000000],3:[8200000,11000000,18000000],4:[13000000,17500000,30000000]},new:{studio:[3200000,4100000,6200000],1:[4000000,5700000,9200000],2:[6400000,9000000,14500000],3:[9500000,13000000,21000000],4:[15000000,20000000,35000000]}}},spb:{flat:{secondary:{studio:[3200000,4100000,6200000],1:[4200000,5900000,9800000],2:[6800000,9200000,15000000],3:[10500000,14100000,23000000],4:[17000000,22000000,38000000]},new:{studio:[3800000,4800000,7100000],1:[5200000,7100000,11800000],2:[8200000,11200000,18500000],3:[12500000,16500000,28000000],4:[20000000,26000000,46000000]}},apart:{secondary:{studio:[3000000,3900000,5900000],1:[4000000,5600000,9200000],2:[6400000,8700000,14200000],3:[9900000,13400000,21800000],4:[16000000,21000000,36000000]},new:{studio:[3600000,4600000,6800000],1:[5000000,6800000,11200000],2:[7800000,10700000,17600000],3:[11900000,15700000,26600000],4:[19000000,24800000,43800000]}}},lo:{flat:{secondary:{studio:[1900000,2500000,3800000],1:[2400000,3400000,5500000],2:[3900000,5400000,8600000],3:[5800000,7900000,12800000],4:[9200000,12000000,20500000]},new:{studio:[2200000,2900000,4400000],1:[2900000,4100000,6600000],2:[4600000,6400000,10300000],3:[6900000,9400000,15300000],4:[11000000,14400000,24500000]}}},ekb:{flat:{secondary:{studio:[2200000,2800000,4100000],1:[2900000,3900000,6200000],2:[4400000,5800000,9100000],3:[6500000,8400000,13500000],4:[10000000,13000000,22000000]},new:{studio:[2600000,3200000,4800000],1:[3500000,4600000,7400000],2:[5200000,6900000,11000000],3:[7500000,9800000,16000000],4:[11500000,15000000,26000000]}}},nsk:{flat:{secondary:{studio:[1900000,2400000,3500000],1:[2500000,3400000,5400000],2:[3800000,5100000,8000000],3:[5600000,7400000,11800000],4:[8500000,11000000,19000000]},new:{studio:[2200000,2900000,4200000],1:[3100000,4100000,6500000],2:[4600000,6200000,9800000],3:[6800000,9000000,14500000],4:[10500000,14000000,23000000]}}},kzn:{flat:{secondary:{studio:[2000000,2600000,3900000],1:[2700000,3700000,5900000],2:[4100000,5500000,8700000],3:[6100000,8000000,12800000],4:[9200000,12000000,20000000]},new:{studio:[2400000,3100000,4600000],1:[3400000,4400000,7000000],2:[5000000,6700000,10600000],3:[7300000,9500000,15500000],4:[11200000,14800000,24500000]}}},krd:{flat:{secondary:{studio:[2100000,2700000,4000000],1:[2900000,3900000,6100000],2:[4300000,5700000,9000000],3:[6400000,8200000,13200000],4:[9500000,12500000,21000000]},new:{studio:[2600000,3300000,4900000],1:[3600000,4700000,7400000],2:[5300000,7000000,11000000],3:[7700000,9900000,16000000],4:[11800000,15500000,25500000]}}},nnov:{flat:{secondary:{studio:[1800000,2300000,3400000],1:[2400000,3200000,5100000],2:[3700000,4900000,7700000],3:[5400000,7100000,11500000],4:[8300000,10800000,18500000]},new:{studio:[2100000,2700000,4000000],1:[2900000,3900000,6200000],2:[4400000,5900000,9400000],3:[6500000,8600000,14000000],4:[10000000,13000000,22500000]}}},chel:{flat:{secondary:{studio:[1500000,1900000,2900000],1:[2000000,2700000,4300000],2:[3100000,4100000,6500000],3:[4600000,6000000,9700000],4:[7000000,9100000,15700000]},new:{studio:[1800000,2300000,3400000],1:[2400000,3200000,5200000],2:[3700000,4900000,7900000],3:[5500000,7200000,11700000],4:[8400000,11000000,19000000]}}},smr:{flat:{secondary:{studio:[1700000,2200000,3300000],1:[2300000,3100000,4900000],2:[3500000,4700000,7400000],3:[5200000,6800000,11000000],4:[7900000,10300000,17700000]},new:{studio:[2000000,2600000,3800000],1:[2800000,3700000,5900000],2:[4200000,5700000,9000000],3:[6300000,8200000,13300000],4:[9600000,12500000,21500000]}}},rnd:{flat:{secondary:{studio:[1900000,2500000,3700000],1:[2600000,3500000,5500000],2:[3900000,5200000,8200000],3:[5800000,7600000,12300000],4:[8800000,11500000,19800000]},new:{studio:[2200000,2900000,4300000],1:[3100000,4100000,6600000],2:[4700000,6300000,10000000],3:[6900000,9100000,14800000],4:[10500000,13700000,23600000]}}}};
+const cityInfo={moscow:{name:'Москва',salary:135000},mo:{name:'МО',salary:95000},spb:{name:'Санкт-Петербург',salary:92000},lo:{name:'Ленингр. обл.',salary:68000},ekb:{name:'Екатеринбург',salary:78000},nsk:{name:'Новосибирск',salary:72000},kzn:{name:'Казань',salary:70000},krd:{name:'Краснодар',salary:68000},nnov:{name:'Нижний Новгород',salary:65000},chel:{name:'Челябинск',salary:62000},smr:{name:'Самара',salary:63000},rnd:{name:'Ростов-на-Дону',salary:65000}};
+const moscowDist=[{n:'ЦАО',m:1.96},{n:'ЗАО',m:1.57},{n:'ЮЗАО',m:1.49},{n:'СЗАО',m:1.40},{n:'САО',m:1.33},{n:'СВАО',m:1.24},{n:'ВАО',m:1.17},{n:'НАО',m:1.13},{n:'ЮАО',m:1.10},{n:'ЮВАО',m:1.05},{n:'ТАО',m:0.93},{n:'ЗелАО',m:0.86}];
+const moDist=[{n:'Одинцово',m:1.20},{n:'Красногорск',m:1.15},{n:'Химки',m:1.10},{n:'Долгопрудный',m:1.08},{n:'Мытищи',m:1.05},{n:'Королёв',m:1.00},{n:'Люберцы',m:0.97},{n:'Балашиха',m:0.95},{n:'Подольск',m:0.92},{n:'Домодедово',m:0.85},{n:'Дмитров',m:0.80},{n:'Серпухов',m:0.72}];
+const trendMap={moscow:3.2,mo:2.4,spb:1.8,lo:1.5,ekb:0.9,nsk:0.5,kzn:1.4,krd:2.1,nnov:0.7,chel:0.4,smr:0.6,rnd:1.1};
+const proptypeNames={flat:'квартира',apart:'апартаменты'};
+const marketNames={secondary:'вторичка',new:'новостройка'};
+const roomNames={studio:'студия',1:'1-комн.',2:'2-комн.',3:'3-комн.',4:'4-комн.'};
+const monthsRu=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const cityCoords={moscow:[55.75,37.62],spb:[59.93,30.32],ekb:[56.84,60.60],nsk:[55.02,82.92],kzn:[55.79,49.12],krd:[45.04,38.98],nnov:[56.32,44.00],chel:[55.15,61.40],smr:[53.19,50.15],rnd:[47.23,39.72]};
+let s={city:'moscow',proptype:'flat',market:'secondary',rooms:'1'};
+let modalMode='flat';
+function fmt(n){return Math.round(n).toLocaleString('ru-RU');}
+function fmtShort(n){return n>=1e6?(n/1e6).toFixed(1)+' М':Math.round(n/1e3)+'К';}
+function getMedian(){const cd=data[s.city],pd=cd[s.proptype]||cd.flat;return pd[s.market][s.rooms][1];}
+function yearWord(n){const t=Math.floor(n)%100,o=Math.floor(n)%10;if(t>=11&&t<=19)return'лет';if(o===1)return'год';if(o>=2&&o<=4)return'года';return'лет';}
+
+function updateSavings(){
+  const income=parseInt(document.getElementById('incomeInp').value)||100000;
+  const pct=parseInt(document.getElementById('savPct').value)||30;
+  const monthly=income*pct/100;
+  const years=getMedian()/monthly/12;
+  document.getElementById('savPctLbl').textContent=pct+'%';
+  document.getElementById('savAmt').textContent=fmt(monthly)+' ₽';
+  document.getElementById('yearsResult').textContent=years.toFixed(1);
+  document.getElementById('yearsWord').textContent=yearWord(years);
+}
+
+function updateMortgage(){
+  const price=getMedian();
+  const dp=parseInt(document.getElementById('downPct').value)||20;
+  const rate=parseFloat(document.getElementById('rateInp').value)||15;
+  const term=parseInt(document.getElementById('termSlider').value)||20;
+  const loan=price*(1-dp/100);
+  const r=rate/100/12,n=term*12;
+  const monthly=r>0?loan*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1):loan/n;
+  const total=monthly*n;
+  document.getElementById('mortPrice').textContent=fmt(price)+' ₽';
+  document.getElementById('downPctLbl').textContent=dp+'%';
+  document.getElementById('downAmtLbl').textContent=fmt(price*dp/100)+' ₽';
+  document.getElementById('termLbl').textContent=term+' лет';
+  document.getElementById('monthlyPay').textContent=fmt(monthly)+' ₽';
+  document.getElementById('overpay').textContent=fmt(total-loan)+' ₽';
+  document.getElementById('totalPay').textContent=fmt(total)+' ₽';
+}
+
+function updateDistricts(){
+  const show=s.city==='moscow'||s.city==='mo';
+  document.getElementById('distCard').style.display=show?'':'none';
+  if(!show)return;
+  const dists=s.city==='moscow'?moscowDist:moDist;
+  const med=getMedian();
+  const prices=dists.map(d=>({n:d.n,p:Math.round(med*d.m)}));
+  const maxP=Math.max(...prices.map(x=>x.p));
+  document.getElementById('distTitle').textContent=s.city==='moscow'?'по округам Москвы':'по городам МО';
+  document.getElementById('distList').innerHTML=prices.map(p=>`<div class="bar-row"><span class="bar-name">${p.n}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(p.p/maxP*100)}%;background:rgba(255,255,255,0.22);"></div></div><span class="bar-val" style="color:rgba(255,255,255,0.3);">${fmtShort(p.p)}</span></div>`).join('');
+}
+
+function updateAccessibility(){
+  const entries=Object.entries(cityInfo).map(([key,info])=>{
+    const cd=data[key],pd=cd[s.proptype]||cd.flat;
+    const price=pd[s.market][s.rooms][1];
+    return{key,name:info.name,years:(price/info.salary/12)};
+  }).sort((a,b)=>a.years-b.years);
+  const maxY=Math.max(...entries.map(e=>e.years));
+  document.getElementById('accList').innerHTML=entries.map((e,i)=>{
+    const cur=e.key===s.city;
+    return`<div class="acc-row" style="opacity:${cur?1:0.5}"><span class="acc-num">${i+1}</span><span class="acc-name" style="color:${cur?'rgba(255,255,255,0.88)':'rgba(255,255,255,0.45)'};">${e.name}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(e.years/maxY*100)}%;background:${cur?'rgba(255,255,255,0.45)':'rgba(255,255,255,0.15)'};"></div></div><span class="bar-val" style="color:${cur?'rgba(255,255,255,0.65)':'rgba(255,255,255,0.25)'};">${e.years.toFixed(1)} лет</span></div>`;
+  }).join('');
+}
+
+function seededRand(seed,i){const x=Math.sin(seed*127.1+i*311.7)*43758.5453;return x-Math.floor(x);}
+function stateHash(){const k=s.city+(s.proptype||'flat')+s.market+String(s.rooms);let h=0;for(let c of k)h=(h*31+c.charCodeAt(0))&0xfffffff;return h;}
+function getChartPoints(){const cd=data[s.city],pd=cd[s.proptype]||cd.flat;const[,med]=pd[s.market][s.rooms];const trend=(trendMap[s.city]||1)/100/12;const seed=stateHash();const pts=[];for(let i=0;i<=12;i++){const base=med/Math.pow(1+trend,12-i);pts.push(base+(seededRand(seed,i)-0.45)*med*0.022);}pts[12]=med;return pts;}
+
+function drawChart(){
+  const canvas=document.getElementById('priceChart'),wrap=document.getElementById('chartWrap');
+  if(!canvas||!wrap)return;
+  const dpr=window.devicePixelRatio||1,W=wrap.offsetWidth||360,H=88;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';canvas.width=W*dpr;canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+  const pts=getChartPoints();
+  const minV=Math.min(...pts)*.993,maxV=Math.max(...pts)*1.007,range=maxV-minV;
+  const pL=4,pR=4,pT=10,pB=26,cW=W-pL-pR,cH=H-pT-pB,N=12;
+  const xp=i=>pL+(i/N)*cW,yp=v=>pT+cH-((v-minV)/range)*cH;
+  function buildPath(){ctx.beginPath();ctx.moveTo(xp(0),yp(pts[0]));for(let i=1;i<=N;i++){const x0=xp(i-1),y0=yp(pts[i-1]),x1=xp(i),y1=yp(pts[i]),cpx=(x0+x1)/2;ctx.bezierCurveTo(cpx,y0,cpx,y1,x1,y1);}}
+  buildPath();ctx.lineTo(xp(N),pT+cH);ctx.lineTo(xp(0),pT+cH);ctx.closePath();
+  const grad=ctx.createLinearGradient(0,pT,0,pT+cH);grad.addColorStop(0,'rgba(255,255,255,0.08)');grad.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=grad;ctx.fill();
+  buildPath();ctx.strokeStyle='rgba(255,255,255,0.45)';ctx.lineWidth=1.5;ctx.lineJoin='round';ctx.stroke();
+  for(let i=0;i<=N;i++){const isLast=i===N;ctx.beginPath();ctx.arc(xp(i),yp(pts[i]),isLast?3.5:2.5,0,Math.PI*2);ctx.fillStyle=isLast?'rgba(255,255,255,0.92)':'rgba(255,255,255,0.32)';ctx.fill();}
+  const now=new Date();ctx.textAlign='center';
+  [0,3,6,9,12].forEach(i=>{const d=new Date(now);d.setMonth(d.getMonth()-(12-i));const yr=String(d.getFullYear()).slice(2);ctx.font=`10px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.22)';ctx.fillText(monthsRu[d.getMonth()],xp(i),H-13);ctx.font=`9px -apple-system,system-ui,sans-serif`;ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillText("'"+yr,xp(i),H-3);});
+  canvas._pts=pts;canvas._xp=xp;canvas._N=N;canvas._W=W;
+}
+
+const chartCanvas=document.getElementById('priceChart'),tooltip=document.getElementById('chartTooltip'),nowD=new Date();
+chartCanvas.addEventListener('mousemove',function(e){if(!this._pts)return;const rect=this.getBoundingClientRect();const mx=e.clientX-rect.left;const i=Math.max(0,Math.min(this._N,Math.round((mx-4)/((this._W-8)/this._N))));const d=new Date(nowD);d.setMonth(d.getMonth()-(12-i));const yr=String(d.getFullYear()).slice(2);tooltip.textContent=monthsRu[d.getMonth()]+" '"+yr+' · '+fmt(this._pts[i])+' ₽';tooltip.style.display='block';tooltip.style.left=Math.max(52,Math.min(this._xp(i),this._W-52))+'px';tooltip.style.top='-30px';});
+chartCanvas.addEventListener('mouseleave',()=>tooltip.style.display='none');
+
+function openModal(mode){
+  modalMode=mode;
+  const cityName=document.getElementById('cityTrigger').textContent;
+  document.getElementById('modalCity').textContent=cityName;
+  if(mode==='mortgage'){
+    document.getElementById('modalTitle').textContent='Подберём ипотеку бесплатно';
+    document.getElementById('modalSub')&&(document.getElementById('modalSub').textContent='');
+  } else {
+    document.getElementById('modalTitle').textContent='Подберём квартиру бесплатно';
+  }
+  document.getElementById('overlay').classList.add('open');
+}
+
+function render(){
+  const cd=data[s.city],pd=cd[s.proptype]||cd.flat;
+  const[lo,med,hi]=pd[s.market][s.rooms];
+  document.getElementById('priceNum').innerHTML=fmt(med)+' <span class="price-rub">₽</span>';
+  document.getElementById('metaProptype').textContent=proptypeNames[s.proptype];
+  document.getElementById('metaRooms').textContent=roomNames[s.rooms];
+  document.getElementById('metaMarket').textContent=marketNames[s.market];
+  document.getElementById('metaTrend').textContent='↑ '+(trendMap[s.city]||1)+'% за месяц';
+  document.getElementById('rangeMin').textContent=fmt(lo)+' ₽';
+  document.getElementById('rangeMax').textContent=fmt(hi)+' ₽';
+  const w=document.getElementById('priceWrap');w.style.animation='none';void w.offsetWidth;w.style.animation='fadein .3s ease';
+  drawChart();updateSavings();updateMortgage();updateDistricts();updateAccessibility();
+}
+
+document.querySelectorAll('.pill').forEach(btn=>{btn.addEventListener('click',()=>{const g=btn.dataset.group,v=btn.dataset.value;s[g]=v;document.querySelectorAll(`.pill[data-group="${g}"]`).forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();});});
+document.getElementById('incomeInp').addEventListener('input',updateSavings);
+document.getElementById('savPct').addEventListener('input',updateSavings);
+document.getElementById('downPct').addEventListener('input',updateMortgage);
+document.getElementById('rateInp').addEventListener('input',updateMortgage);
+document.getElementById('termSlider').addEventListener('input',updateMortgage);
+
+const trigger=document.getElementById('cityTrigger'),dropdown=document.getElementById('cityDropdown');
+trigger.addEventListener('click',e=>{e.stopPropagation();dropdown.classList.toggle('open');});
+document.addEventListener('click',()=>dropdown.classList.remove('open'));
+document.querySelectorAll('.city-opt').forEach(opt=>{opt.addEventListener('click',()=>{s.city=opt.dataset.key;trigger.textContent=opt.dataset.gen;document.querySelectorAll('.city-opt').forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');dropdown.classList.remove('open');document.getElementById('modalCity').textContent=opt.dataset.gen;const pill=document.getElementById('pillAparts');if(opt.dataset.aparts==='0'){if(s.proptype==='apart'){s.proptype='flat';document.querySelectorAll('[data-group="proptype"]').forEach(b=>b.classList.remove('active'));document.querySelector('[data-value="flat"][data-group="proptype"]').classList.add('active');}pill.style.display='none';}else{pill.style.display='';}render();});});
+
+document.getElementById('ctaBtn').addEventListener('click',()=>openModal('flat'));
+document.getElementById('mortCtaBtn').addEventListener('click',()=>openModal('mortgage'));
+document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('overlay').classList.remove('open'));
+document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  if(!document.getElementById('fieldPhone').value.trim()){document.getElementById('fieldPhone').focus();return;}
+  document.getElementById('formContent').style.display='none';
+  document.getElementById('successMsg').style.display='block';
+  setTimeout(()=>{document.getElementById('overlay').classList.remove('open');setTimeout(()=>{document.getElementById('formContent').style.display='block';document.getElementById('successMsg').style.display='none';document.getElementById('fieldPhone').value='';},400);},3000);
+});
+
+document.getElementById('emailBtn').addEventListener('click',()=>{
+  const val=document.getElementById('emailInp').value.trim();
+  if(!val||!val.includes('@')){document.getElementById('emailInp').focus();return;}
+  document.getElementById('emailSuccess').style.display='block';
+  document.getElementById('emailInp').value='';
+  document.getElementById('emailBtn').textContent='✓';
+  document.getElementById('emailBtn').style.opacity='.5';
+  document.getElementById('emailBtn').disabled=true;
+});
+
+if(navigator.geolocation){navigator.geolocation.getCurrentPosition(pos=>{const{latitude:lat,longitude:lng}=pos.coords;let best=null,bestDist=Infinity;for(const[key,[clat,clng]]of Object.entries(cityCoords)){const d=Math.hypot(lat-clat,lng-clng);if(d<bestDist){bestDist=d;best=key;}}if(best&&best!=='moscow'){const opt=document.querySelector(`.city-opt[data-key="${best}"]`);if(opt)opt.click();}},()=>{});}
+
+window.addEventListener('resize',()=>drawChart());
+setTimeout(()=>render(),50);
+</script>
+</body>
+</html>
