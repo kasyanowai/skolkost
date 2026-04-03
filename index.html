@@ -176,7 +176,7 @@ details summary::-webkit-details-marker{display:none;} details[open] summary spa
       </div>
     </div>
     <div id="rangeBarWrap" style="width:100%;max-width:420px;margin-top:0.75rem;display:flex;flex-direction:column;gap:5px;"></div>
-    <button class="cta-btn" id="ctaBtn">Бесплатно подберём варианты →</button>
+    <button class="cta-btn" id="ctaBtn">Найти квартиру за эту цену →</button>
   </div>
 
   <div class="sections">
@@ -218,7 +218,7 @@ details summary::-webkit-details-marker{display:none;} details[open] summary spa
         <div><div class="mort-item-label">переплата</div><div class="sec-val" id="overpay">9 560 000 ₽</div></div>
         <div style="text-align:right"><div class="mort-item-label">итого с %</div><div class="sec-val" id="totalPay">18 280 000 ₽</div></div>
       </div>
-      <button class="mort-cta" id="mortCtaBtn">Подобрать ипотеку бесплатно →</button>
+      <button class="mort-cta" id="mortCtaBtn">Хочу узнать про ипотеку →</button>
     </div>
 
     <!-- 3. М² -->
@@ -494,7 +494,7 @@ function openModal(mode){
   const cityName=document.getElementById('cityTrigger').textContent;
   document.getElementById('modalCity').textContent=cityName;
   if(mode==='mortgage'){
-    document.getElementById('modalTitle').textContent='Подберём ипотеку бесплатно';
+    document.getElementById('modalTitle').textContent='Расскажем про ипотеку';
   } else {
     document.getElementById('modalTitle').textContent='Подберём квартиру бесплатно';
   }
