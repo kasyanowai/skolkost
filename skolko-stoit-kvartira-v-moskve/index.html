@@ -698,20 +698,44 @@ document.getElementById('modalClose').addEventListener('click',()=>document.getE
 document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
 document.getElementById('submitBtn').addEventListener('click',()=>{
-  if(!document.getElementById('fieldPhone').value.trim()){document.getElementById('fieldPhone').focus();return;}
-  document.getElementById('formContent').style.display='none';
-  document.getElementById('successMsg').style.display='block';
-  setTimeout(()=>{document.getElementById('overlay').classList.remove('open');setTimeout(()=>{document.getElementById('formContent').style.display='block';document.getElementById('successMsg').style.display='none';document.getElementById('fieldPhone').value='';},400);},3000);
+  const phone=document.getElementById('fieldPhone').value.trim();
+  if(!phone){document.getElementById('fieldPhone').focus();return;}
+  const city=document.getElementById('cityTrigger').textContent;
+  const mode=modalMode||'flat';
+  fetch('https://formspree.io/f/xpqooppe',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({phone,city,type:mode,page:location.href})
+  }).then(r=>{
+    document.getElementById('formContent').style.display='none';
+    document.getElementById('successMsg').style.display='block';
+    setTimeout(()=>{document.getElementById('overlay').classList.remove('open');setTimeout(()=>{document.getElementById('formContent').style.display='block';document.getElementById('successMsg').style.display='none';document.getElementById('fieldPhone').value='';modalMode=null;},400);},3000);
+  }).catch(()=>{
+    document.getElementById('formContent').style.display='none';
+    document.getElementById('successMsg').style.display='block';
+    setTimeout(()=>{document.getElementById('overlay').classList.remove('open');setTimeout(()=>{document.getElementById('formContent').style.display='block';document.getElementById('successMsg').style.display='none';document.getElementById('fieldPhone').value='';},400);},3000);
+  });
 });
 
 document.getElementById('emailBtn').addEventListener('click',()=>{
   const val=document.getElementById('emailInp').value.trim();
   if(!val||!val.includes('@')){document.getElementById('emailInp').focus();return;}
-  document.getElementById('emailSuccess').style.display='block';
-  document.getElementById('emailInp').value='';
-  document.getElementById('emailBtn').textContent='✓';
-  document.getElementById('emailBtn').style.opacity='.5';
-  document.getElementById('emailBtn').disabled=true;
+  const btn=document.getElementById('emailBtn');
+  btn.textContent='...';btn.disabled=true;
+  const city=document.getElementById('cityTrigger').textContent;
+  fetch('https://formspree.io/f/xpqooppe',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({email:val,city,type:'email_subscription',page:location.href})
+  }).then(()=>{
+    document.getElementById('emailSuccess').style.display='block';
+    document.getElementById('emailInp').value='';
+    btn.textContent='✓';btn.style.opacity='.5';
+  }).catch(()=>{
+    document.getElementById('emailSuccess').style.display='block';
+    document.getElementById('emailInp').value='';
+    btn.textContent='✓';btn.style.opacity='.5';
+  });
 });
 
 if(navigator.geolocation){navigator.geolocation.getCurrentPosition(pos=>{const{latitude:lat,longitude:lng}=pos.coords;let best=null,bestDist=Infinity;for(const[key,[clat,clng]]of Object.entries(cityCoords)){const d=Math.hypot(lat-clat,lng-clng);if(d<bestDist){bestDist=d;best=key;}}if(best&&best!=='moscow'){const opt=document.querySelector(`.city-opt[data-key="${best}"]`);if(opt)opt.click();}},()=>{});}
